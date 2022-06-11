@@ -13,7 +13,11 @@ else
   echo "Bazel cache directory $BAZEL_CACHE_DIR does not exist."
 fi
 
-bazel build --repository_cache="$BAZEL_CACHE_DIR/repository" --disk_cache="$BAZEL_CACHE_DIR/disk" --config=clang --verbose_failures -c opt //contrib/exe:envoy-static --//contrib/vcl/source:enabled=False --//contrib/kafka/filters/network/source:enabled=True --//contrib/language/filters/http/source:enabled=False --//contrib/rocketmq_proxy/filters/network/source:enabled=False --//contrib/squash/filters/http/source:enabled=False --//contrib/sip_proxy/filters/network/source/router:enabled=False --//contrib/postgres_proxy/filters/network/source:enabled=False --//contrib/sxg/filters/http/source:enabled=False --//contrib/kafka/filters/network/source/mesh:enabled=False --//contrib/hyperscan/matching/input_matchers/source:enabled=False --//contrib/sip_proxy/filters/network/source:enabled=False --//contrib/cryptomb/private_key_providers/source:enabled=False --//contrib/mysql_proxy/filters/network/source:enabled=False
+pushd /envoy && bazel/setup_clang.sh /opt/llvm
+
+pushd /envoy && bazel build --repository_cache="$BAZEL_CACHE_DIR/repository" --disk_cache="$BAZEL_CACHE_DIR/disk" --config=clang --verbose_failures -c opt //contrib/exe:envoy-static --//contrib/vcl/source:enabled=False --//contrib/kafka/filters/network/source:enabled=True --//contrib/language/filters/http/source:enabled=False --//contrib/rocketmq_proxy/filters/network/source:enabled=False --//contrib/squash/filters/http/source:enabled=False --//contrib/sip_proxy/filters/network/source/router:enabled=False --//contrib/postgres_proxy/filters/network/source:enabled=False --//contrib/sxg/filters/http/source:enabled=False --//contrib/kafka/filters/network/source/mesh:enabled=False --//contrib/hyperscan/matching/input_matchers/source:enabled=False --//contrib/sip_proxy/filters/network/source:enabled=False --//contrib/cryptomb/private_key_providers/source:enabled=False --//contrib/mysql_proxy/filters/network/source:enabled=False
+
+pushd /envoy/bazel-bin/contrib/exe && strip envoy-static -o envoy
 
 # Since this script is running inside of a container (as root) the bazel cache
 # is owned by root. However, the host system (Github's ubuntu-latest vm)

@@ -8,6 +8,12 @@ RUN groupadd --gid $(id -g) -f envoygroup \
 
 RUN git clone https://github.com/envoyproxy/envoy.git && cd envoy && git checkout release/v1.22
 
+RUN groupadd --gid $(id -g) -f envoygroup \
+  && useradd -o --uid $(id -u) --gid $(id -g) --no-create-home --home-dir /build envoybuild \
+  && usermod -a -G pcap envoybuild \
+  && mkdir /build /source \
+  && chown envoybuild:envoygroup /build /source
+
 COPY scripts/* /usr/local/bin/
 COPY entrypoint.sh /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
