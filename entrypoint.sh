@@ -2,7 +2,7 @@
 
 set -e
 
-# WORKSPACE_DIR="/root/gha-bazel"
+WORKSPACE_DIR="/root/gha-bazel"
 # BAZEL_CACH_SECRET_FILE="/tmp/gcs.json"
 
 # # This is a volume mounted directory and thus may not always exist, such as
