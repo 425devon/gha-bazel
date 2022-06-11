@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# This script is meant to be invoked by CI's "build everything" step
+
+set -ex
+echo "ci_build_test was called"
+
+BAZEL_CACHE_DIR="/github/workspace/.cache/bazel"
+
+if [ -d "$BAZEL_CACHE_DIR" ]; then
+  du -sh "$BAZEL_CACHE_DIR"
+else
+  echo "Bazel cache directory $BAZEL_CACHE_DIR does not exist."
+fi
+
+bazel build --repository_cache="$BAZEL_CACHE_DIR/repository" --disk_cache="$BAZEL_CACHE_DIR/disk" --config=clang --verbose_failures -c opt //contrib/exe:envoy-static --//contrib/vcl/source:enabled=False --//contrib/kafka/filters/network/source:enabled=True --//contrib/language/filters/http/source:enabled=False --//contrib/rocketmq_proxy/filters/network/source:enabled=False --//contrib/squash/filters/http/source:enabled=False --//contrib/sip_proxy/filters/network/source/router:enabled=False --//contrib/postgres_proxy/filters/network/source:enabled=False --//contrib/sxg/filters/http/source:enabled=False --//contrib/kafka/filters/network/source/mesh:enabled=False --//contrib/hyperscan/matching/input_matchers/source:enabled=False --//contrib/sip_proxy/filters/network/source:enabled=False --//contrib/cryptomb/private_key_providers/source:enabled=False --//contrib/mysql_proxy/filters/network/source:enabled=False
+
+# Since this script is running inside of a container (as root) the bazel cache
+# is owned by root. However, the host system (Github's ubuntu-latest vm)
+# is going to attempt to archive the cache to restore it later.
+# We can change ownership here to the UID in use outside of the
+# container so that there aren't permission failures.
+# XXX(bsirang) ideally we can retrieve this UID via an environment variable
+echo "Resetting permissions of bazel cache..."
+chown -R 1001:1001 "$BAZEL_CACHE_DIR"

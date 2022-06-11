@@ -1,0 +1,9 @@
+name: 'Bazel build ...'
+description: 'Build all targets'
+runs:
+  using: 'docker'
+  image: 'envoy-builder:v1.22.0'
+  env:
+    DOCKER_BUILDKIT: 1
+  args:
+    - ci_build_and_test
