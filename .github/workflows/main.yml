@@ -58,7 +58,7 @@ jobs:
           docker cp "$id":/envoy-sources/bazel-bin/contrib/exe/envoy ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
           docker rm -v "$id"
         env:
-          envoyTag: ${{ github.event.inputs.envoyTag }}
+          envoyTag: v1.22.0
 
       - name: Zip artifact
         run: |
