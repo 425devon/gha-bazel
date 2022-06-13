@@ -54,7 +54,7 @@ jobs:
       - name: copy binary
         run: |
           mkdir -p ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
-          id=$(docker create ${{steps.envoy-version.outputs.local_build_image}})
+          id=$(docker create envoy-builder:${envoyTag})
           docker cp "$id":/envoy-sources/bazel-bin/contrib/exe/envoy ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
           docker rm -v "$id"
         env:
@@ -66,7 +66,7 @@ jobs:
               tar -czvf build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine.tar.gz build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
           fi
         env:
-          envoyTag: ${{ github.event.inputs.envoyTag }}
+          envoyTag: v1.22.0
       
       - name: Save artifact
         uses: actions/upload-artifact@v3
