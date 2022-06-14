@@ -55,7 +55,7 @@ jobs:
         run: |
           mkdir -p ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
           id=$(docker create envoy-builder:${envoyTag})
-          docker cp "$id":/envoy-sources/bazel-bin/contrib/exe/envoy ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
+          docker cp "$id":/envoy/bazel-bin/contrib/exe/envoy ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
           docker rm -v "$id"
         env:
           envoyTag: v1.22.0
