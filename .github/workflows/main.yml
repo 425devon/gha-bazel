@@ -113,7 +113,7 @@ jobs:
         - name: prepare env
           shell: pwsh
           run: |
-            windows.ps1
+            .\windows.ps1
 
         - name: Checkout step
           id: checkout
