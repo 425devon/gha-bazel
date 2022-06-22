@@ -118,13 +118,13 @@ DownloadAndCheck $env:TEMP\cmake.msi `
 RunAndCheckError "msiexec.exe" @("/i", "$env:TEMP\cmake.msi", "/quiet", "/norestart") $true
 AddToPath $env:ProgramFiles\CMake\bin
 
-# Ninja to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
-mkdir -Force C:\tools\ninja
-DownloadAndCheck $env:TEMP\ninja.zip `
-                 https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip `
-                 bbde850d247d2737c5764c927d1071cbb1f1957dcabda4a130fa8547c12c695f
-Expand-Archive -Path $env:TEMP\ninja.zip -DestinationPath C:\tools\ninja
-AddToPath C:\tools\ninja
+# # Ninja to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
+# mkdir -Force C:\tools\ninja
+# DownloadAndCheck $env:TEMP\ninja.zip `
+#                  https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip `
+#                  bbde850d247d2737c5764c927d1071cbb1f1957dcabda4a130fa8547c12c695f
+# Expand-Archive -Path $env:TEMP\ninja.zip -DestinationPath C:\tools\ninja
+# AddToPath C:\tools\ninja
 
 # LLVM to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
 DownloadAndCheck $env:TEMP\LLVM-win64.exe `

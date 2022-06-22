@@ -113,6 +113,9 @@ jobs:
         # should be modified in ps1
         - name: Install Python dependencies
           uses: py-actions/py-dependency-install@v3
+
+        - name: Setup Ninja
+          uses: ashutoshvarma/setup-ninja@master
         
         - name: download envoy sources
           id: envoy-sources
