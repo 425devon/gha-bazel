@@ -116,14 +116,15 @@ jobs:
 
         - uses: seanmiddleditch/gha-setup-ninja@master
 
-        - name: check dirs
-          run: |
-
         - name: set env
           shell: cmd
           run: |
             set PreferredToolArchitecture=x64
             set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC
+            set PATH=%USERPROFILE%\msys64\usr\bin;%PATH%
+            set BAZEL_SH=%USERPROFILE%\msys64\usr\bin\bash.exe
+            set MSYS2_ARG_CONV_EXCL=*
+            set MSYS2_PATH_TYPE=inherit
         
         - name: download envoy sources
           id: envoy-sources
@@ -158,7 +159,7 @@ jobs:
               --nokeep_state_after_build
 
           run: |
-            bazel ${BAZEL_STARTUP_OPTIONS[@]} build ${BAZEL_BUILD_OPTIONS[@]} -c opt envoy
+            bazel ${BAZEL_STARTUP_OPTIONS[@]} build ${BAZEL_BUILD_OPTIONS[@]} -c opt //source/exe:envoy-static
 
         - name: Archive production artifacts
           uses: actions/upload-artifact@v2
