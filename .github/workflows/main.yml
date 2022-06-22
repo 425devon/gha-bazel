@@ -115,6 +115,11 @@ jobs:
           uses: py-actions/py-dependency-install@v3
 
         - uses: seanmiddleditch/gha-setup-ninja@master
+
+        - name: set env
+          run: |
+            set PreferredToolArchitecture=x64
+            set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
         
         - name: download envoy sources
           id: envoy-sources
@@ -141,8 +146,9 @@ jobs:
               --host_jvm_args=-Xmx4g
 
             BAZEL_BUILD_OPTIONS: >-
+              --jobs=3
               --local_ram_resources=HOST_RAM*.99
-              --local_cpu_resources=HOST_CPUS-2
+              --local_cpu_resources=2
               --discard_analysis_cache
               --notrack_incremental_state
               --nokeep_state_after_build
