@@ -98,7 +98,6 @@ jobs:
             rm -rf PostgreSQL
             rm -rf R
             rm -rf internet explorer
-            rm -rf nodejs
             df -k .
           working-directory: C:\Program Files
 
