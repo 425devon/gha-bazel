@@ -86,29 +86,29 @@ jobs:
         run:
           shell: bash
       steps:
-        - name: make space
-          run: |
-            pwd
-            ls -l
-            df -k .
-            rm -rf Amazon
-            rm -rf Mercurial
-            rm -rf MongoDB
-            rm -rf Mozilla Firefox
-            rm -rf PostgreSQL
-            rm -rf R
-            rm -rf internet explorer
-            df -k .
-          working-directory: C:\Program Files
+        # - name: make space
+        #   run: |
+        #     pwd
+        #     ls -l
+        #     df -k .
+        #     rm -rf Amazon
+        #     rm -rf Mercurial
+        #     rm -rf MongoDB
+        #     rm -rf Mozilla Firefox
+        #     rm -rf PostgreSQL
+        #     rm -rf R
+        #     rm -rf internet explorer
+        #     df -k .
+        #   working-directory: C:\Program Files
 
-        - name: Checkout step
-          id: checkout
-          uses: actions/checkout@v2
+        # - name: Checkout step
+        #   id: checkout
+        #   uses: actions/checkout@v2
 
-        - name: prepare env
-          shell: pwsh
-          run: |
-            .\windows.ps1
+        # - name: prepare env
+        #   shell: pwsh
+        #   run: |
+        #     .\windows.ps1
 
         # should be modified in ps1
         - name: Install Python dependencies
