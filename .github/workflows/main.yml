@@ -84,12 +84,8 @@ jobs:
       runs-on: windows-2019
       defaults:
         run:
-          shell: msys2 {0}
+          shell: bash
       steps:
-        - uses: msys2/setup-msys2@v2
-          with:
-            update: true
-            
         - name: make space
           run: |
             pwd
@@ -114,33 +110,10 @@ jobs:
           with:
             msbuild-architecture: x64
 
-        - name: set env
+        - name: prepare env
+          shell: pwsh
           run: |
-            set PreferredToolArchitecture=x64
-            set BAZEL_LLVM=C:\Program Files\LLVM
-            mklink %USERPROFILE%\Python39\python3.exe %USERPROFILE%\Python39\python.exe
-            set PATH=%USERPROFILE%\Python39;%PATH%
-            set PATH=%USERPROFILE%\Python39\Scripts;%PATH%
-            pip install wheel
-            set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
-            set PATH=%USERPROFILE%\VSBT2019\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64;%PATH%
-            set PATH=%USERPROFILE%\VSBT2019\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
-            set PATH=%USERPROFILE%\VSBT2019\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;%PATH%
-            set PATH=%USERPROFILE%\msys64\usr\bin;%PATH%
-            set BAZEL_SH=%USERPROFILE%\msys64\usr\bin\bash.exe
-            set MSYS2_ARG_CONV_EXCL=*
-            set MSYS2_PATH_TYPE=inherit
-            set TMPDIR=C:/Windows/TEMP
-            mklink /d C:\c C:\
-            pacman -S diffutils patch unzip zip
-            set PATH=%USERPROFILE%\Git\bin;%PATH%
-            setx PATH "%PATH%"
-            setx BAZEL_SH "%BAZEL_SH%"
-            setx MSYS2_ARG_CONV_EXCL "%MSYS2_ARG_CONV_EXCL%"
-            setx BAZEL_VC "%BAZEL_VC%"
-            setx TMPDIR "%TMPDIR%"
-            setx MSYS2_PATH_TYPE "%MSYS2_PATH_TYPE%"
-          shell: cmd
+            windows.ps1
 
         - name: Checkout step
           id: checkout
