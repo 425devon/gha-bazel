@@ -72,12 +72,12 @@ Add-Content -Path "C:\Windows\System32\drivers\etc\hosts" -Encoding ASCII -Value
 
 mkdir -Force C:\tools
 
-# Bazelisk
-mkdir -Force C:\tools\bazel
-DownloadAndCheck C:\tools\bazel\bazel.exe `
-                 https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-windows-amd64.exe `
-                 0eca0630e072434c63614b009bf5b63a7dff489a8676b560ce63e0d91ab731cd
-AddToPath C:\tools\bazel
+# # Bazelisk
+# mkdir -Force C:\tools\bazel
+# DownloadAndCheck C:\tools\bazel\bazel.exe `
+#                  https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-windows-amd64.exe `
+#                  0eca0630e072434c63614b009bf5b63a7dff489a8676b560ce63e0d91ab731cd
+# AddToPath C:\tools\bazel
 
 # VS 2019 Build Tools
 # Pinned to version 16.9.4 downloaded on 1/31/2022 via https://aka.ms/vs/16/release/vs_BuildTools.exe

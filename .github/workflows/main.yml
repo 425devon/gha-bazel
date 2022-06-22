@@ -114,8 +114,7 @@ jobs:
         - name: Install Python dependencies
           uses: py-actions/py-dependency-install@v3
 
-        - name: Setup Ninja
-          uses: ashutoshvarma/setup-ninja@master
+        - uses: seanmiddleditch/gha-setup-ninja@master
         
         - name: download envoy sources
           id: envoy-sources
