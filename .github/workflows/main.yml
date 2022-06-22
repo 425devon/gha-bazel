@@ -2,81 +2,167 @@ name: CI
 on: workflow_dispatch
 
 jobs:
-  build_envoy_alpine_amd64:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout step
-        id: checkout
-        uses: actions/checkout@v2
+  # build_envoy_alpine_amd64:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout step
+  #       id: checkout
+  #       uses: actions/checkout@v2
 
-      # Hacky solution to resolve running out of disk space
-      # https://github.com/actions/virtual-environments/issues/2840#issuecomment-790492173
-      - name: make space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+  #     # Hacky solution to resolve running out of disk space
+  #     # https://github.com/actions/virtual-environments/issues/2840#issuecomment-790492173
+  #     - name: make space
+  #       run: |
+  #         sudo rm -rf /usr/share/dotnet
+  #         sudo rm -rf /opt/ghc
+  #         sudo rm -rf "/usr/local/share/boost"
+  #         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1.6.0
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v1.6.0
         
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+  #     - name: Cache Docker layers
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: /tmp/.buildx-cache
+  #         key: ${{ runner.os }}-buildx-${{ github.sha }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-buildx-
 
-      - name: docker buildx
-        uses: docker/build-push-action@v2.7.0
-        with:
-          context: .
-          push: false
-          load: true
-          tags: envoy-builder:v1.22.0
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+  #     - name: docker buildx
+  #       uses: docker/build-push-action@v2.7.0
+  #       with:
+  #         context: .
+  #         push: false
+  #         load: true
+  #         tags: envoy-builder:v1.22.0
+  #         cache-from: type=local,src=/tmp/.buildx-cache
+  #         cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      - name: Cache Bazel
-        uses: actions/cache@v2
-        with:
-          path: /home/runner/work/gha-bazel/gha-bazel/.cache/bazel
-          key: ${{ runner.os }}-bazel-cache-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-bazel-cache-
+  #     - name: Cache Bazel
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: /home/runner/work/gha-bazel/gha-bazel/.cache/bazel
+  #         key: ${{ runner.os }}-bazel-cache-${{ github.sha }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-bazel-cache-
 
-      - name: Build step
-        id: build
-        uses: ./.github/actions/bazel-build
+  #     - name: Build step
+  #       id: build
+  #       uses: ./.github/actions/bazel-build
 
-      - name: copy binary
-        run: |
-          mkdir -p ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
-          id=$(docker create envoy-builder:${envoyTag})
-          docker cp "$id":/envoy/bazel-bin/contrib/exe ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
-          docker rm -v "$id"
-        env:
-          envoyTag: v1.22.0
+  #     - name: copy binary
+  #       run: |
+  #         mkdir -p ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
+  #         id=$(docker create envoy-builder:${envoyTag})
+  #         docker cp "$id":/envoy/bazel-bin/contrib/exe ./build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
+  #         docker rm -v "$id"
+  #       env:
+  #         envoyTag: v1.22.0
 
-      - name: Zip artifact
-        run: |
-          if [[ -f build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine ]]; then  
-              tar -czvf build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine.tar.gz build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
-          fi
-        env:
-          envoyTag: v1.22.0
+  #     - name: Zip artifact
+  #       run: |
+  #         if [[ -f build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine ]]; then  
+  #             tar -czvf build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine.tar.gz build/artifacts-linux-amd64/envoy/envoy-${envoyTag#v}-alpine
+  #         fi
+  #       env:
+  #         envoyTag: v1.22.0
       
-      - name: Save artifact
-        uses: actions/upload-artifact@v3
-        id: save_artifacts
-        with:
-          name: artifacts
-          path: |
-            build/**/envoy/*.tar.gz
+  #     - name: Save artifact
+  #       uses: actions/upload-artifact@v3
+  #       id: save_artifacts
+  #       with:
+  #         name: artifacts
+  #         path: |
+  #           build/**/envoy/*.tar.gz
 
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+  #     - name: Move cache
+  #       run: |
+  #         rm -rf /tmp/.buildx-cache
+  #         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+    build_envoy_windows_amd64:
+      runs-on: windows-2019
+      defaults:
+        run:
+          shell: bash
+      steps:
+        - name: make space
+          run: |
+            pwd
+            ls -l
+            df -k .
+            rm -rf Amazon
+            rm -rf Mercurial
+            rm -rf MongoDB
+            rm -rf Mozilla Firefox
+            rm -rf PostgreSQL
+            rm -rf R
+            rm -rf internet explorer
+            rm -rf nodejs
+            df -k .
+          working-directory: C:\Program Files
+
+        - uses: ilammy/msvc-dev-cmd@v1
+          with:
+            arch: amd64
+        
+        - name: Add msbuild to PATH
+          uses: microsoft/setup-msbuild@v1.1
+          with:
+            msbuild-architecture: x64
+
+        - name: set env
+          run: |
+            set PreferredToolArchitecture=x64
+            set BAZEL_LLVM=C:\Program Files\LLVM
+            set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
+            set PATH=%USERPROFILE%\VSBT2019\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64;%PATH%
+            set PATH=%USERPROFILE%\VSBT2019\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
+            set PATH=%USERPROFILE%\VSBT2019\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;%PATH%
+          shell: cmd
+
+        - name: Checkout step
+          id: checkout
+          uses: actions/checkout@v2
+        
+        - name: download envoy sources
+          id: envoy-sources
+          run: |
+            mkdir -p envoy-sources
+            cd envoy-sources
+            git init .
+            git remote add origin https://github.com/envoyproxy/envoy.git
+
+            git fetch origin --depth=1 ${ENVOY_TAG}
+            git reset --hard FETCH_HEAD
+          env:
+            ENVOY_TAG: ${{ github.event.inputs.envoyTag }}
+
+        - name: Build Envoy
+          working-directory: envoy-sources
+          env:
+            ENVOY_DOCKER_BUILD_DIR: "C:/build"
+            # We have to leave some resources free, as if bazel will use all of them
+            # the GitHub Actions Runner service will stop responding and any action
+            # run on this machine will be cancelled
+            # https://docs.bazel.build/versions/main/memory-saving-mode.html
+            BAZEL_STARTUP_OPTIONS: >-
+              --output_base=C:/_eb
+              --host_jvm_args=-Xmx4g
+
+            BAZEL_BUILD_OPTIONS: >-
+              --local_ram_resources=HOST_RAM*.99
+              --local_cpu_resources=HOST_CPUS-2
+              --discard_analysis_cache
+              --notrack_incremental_state
+              --nokeep_state_after_build
+
+          run: |
+            bazel ${BAZEL_STARTUP_OPTIONS[@]} build ${BAZEL_BUILD_OPTIONS[@]} -c opt envoy
+
+        - name: Archive production artifacts
+          uses: actions/upload-artifact@v2
+          with:
+            name: envoy_${{ github.sha }}
+            path: |
+              C:/build/envoy/source/exe/envoy.exe

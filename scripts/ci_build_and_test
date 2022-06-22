@@ -19,9 +19,6 @@ pushd /envoy && bazel build --repository_cache="$BAZEL_CACHE_DIR/repository" --d
 
 pushd /envoy/bazel-bin/contrib/exe && strip envoy-static -o envoy
 
-RUN pwd
-RUN ls -ls
-
 # Since this script is running inside of a container (as root) the bazel cache
 # is owned by root. However, the host system (Github's ubuntu-latest vm)
 # is going to attempt to archive the cache to restore it later.
