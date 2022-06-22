@@ -136,7 +136,7 @@ jobs:
             git fetch origin --depth=1 ${ENVOY_TAG}
             git reset --hard FETCH_HEAD
           env:
-            ENVOY_TAG: ${{ github.event.inputs.envoyTag }}
+            ENVOY_TAG: v1.22.0
 
         - name: Build Envoy
           working-directory: envoy-sources
