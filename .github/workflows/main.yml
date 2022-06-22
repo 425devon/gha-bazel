@@ -116,10 +116,14 @@ jobs:
 
         - uses: seanmiddleditch/gha-setup-ninja@master
 
+        - name: check dirs
+          run: |
+
         - name: set env
+          shell: cmd
           run: |
             set PreferredToolArchitecture=x64
-            set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
+            set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC
         
         - name: download envoy sources
           id: envoy-sources
