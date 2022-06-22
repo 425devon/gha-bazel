@@ -109,6 +109,10 @@ jobs:
           shell: pwsh
           run: |
             .\windows.ps1
+
+        # should be modified in ps1
+        - name: Install Python dependencies
+          uses: py-actions/py-dependency-install@v3
         
         - name: download envoy sources
           id: envoy-sources

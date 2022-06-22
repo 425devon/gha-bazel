@@ -190,19 +190,19 @@ RunAndCheckError "pacman.exe" @("-Syy", "--noconfirm")
 RunAndCheckError "pacman.exe" @("-S", "--noconfirm", "--needed", "git", "subversion", "diffutils", "patch", "unzip", "zip")
 RunAndCheckError "pacman.exe" @("-Scc", "--noconfirm")
 
-echo "Cleaning up unnecessary files..."
-rm -Recurse -Force -ErrorAction SilentlyContinue $env:TEMP\*
-# This action makes all installed components not upgradable, non-removable.
-# To update Visual Studio and other installed Windows components, regenerate
-# the docker image from scratch.
-rm -Recurse -Force -ErrorAction SilentlyContinue "$env:ProgramData\Package Cache\*"
-rm -Recurse -Force -ErrorAction SilentlyContinue "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
-# Remove x86 tools and libraries we cannot use.
-# GCP silently fails to execute 32-bit binaries and we do not expect to target x86 32 bit builds
-rm -Recurse -Force -ErrorAction SilentlyContinue (ls -recurse "C:\Program Files*" -ErrorAction SilentlyContinue | where-object { $_.PSIsContainer -and $_.Name.EndsWith("x86") })
-# Remove documentation we do not expect users to use
-rm -Recurse -Force -ErrorAction SilentlyContinue "$env:ProgramFiles\CMake\doc"
-rm -Recurse -Force -ErrorAction SilentlyContinue "$env:ProgramFiles\CMake\man"
-echo "done."
+# echo "Cleaning up unnecessary files..."
+# rm -Recurse -Force -ErrorAction SilentlyContinue $env:TEMP\*
+# # This action makes all installed components not upgradable, non-removable.
+# # To update Visual Studio and other installed Windows components, regenerate
+# # the docker image from scratch.
+# rm -Recurse -Force -ErrorAction SilentlyContinue "$env:ProgramData\Package Cache\*"
+# rm -Recurse -Force -ErrorAction SilentlyContinue "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
+# # Remove x86 tools and libraries we cannot use.
+# # GCP silently fails to execute 32-bit binaries and we do not expect to target x86 32 bit builds
+# rm -Recurse -Force -ErrorAction SilentlyContinue (ls -recurse "C:\Program Files*" -ErrorAction SilentlyContinue | where-object { $_.PSIsContainer -and $_.Name.EndsWith("x86") })
+# # Remove documentation we do not expect users to use
+# rm -Recurse -Force -ErrorAction SilentlyContinue "$env:ProgramFiles\CMake\doc"
+# rm -Recurse -Force -ErrorAction SilentlyContinue "$env:ProgramFiles\CMake\man"
+# echo "done."
 
-echo "Finished software installation."
+# echo "Finished software installation."
