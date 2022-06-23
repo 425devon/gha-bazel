@@ -72,79 +72,83 @@ Add-Content -Path "C:\Windows\System32\drivers\etc\hosts" -Encoding ASCII -Value
 
 mkdir -Force C:\tools
 
-# # Bazelisk
-# mkdir -Force C:\tools\bazel
-# DownloadAndCheck C:\tools\bazel\bazel.exe `
-#                  https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-windows-amd64.exe `
-#                  0eca0630e072434c63614b009bf5b63a7dff489a8676b560ce63e0d91ab731cd
-# AddToPath C:\tools\bazel
+# # # Bazelisk
+# # mkdir -Force C:\tools\bazel
+# # DownloadAndCheck C:\tools\bazel\bazel.exe `
+# #                  https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-windows-amd64.exe `
+# #                  0eca0630e072434c63614b009bf5b63a7dff489a8676b560ce63e0d91ab731cd
+# # AddToPath C:\tools\bazel
 
-# VS 2019 Build Tools
-# Pinned to version 16.9.4 downloaded on 1/31/2022 via https://aka.ms/vs/16/release/vs_BuildTools.exe
-DownloadAndCheck $env:TEMP\vs_BuildTools.exe `
-                 https://download.visualstudio.microsoft.com/download/pr/9a26f37e-6001-429b-a5db-c5455b93953c/460d80ab276046de2455a4115cc4e2f1e6529c9e6cb99501844ecafd16c619c4/vs_BuildTools.exe `
-                 460d80ab276046de2455a4115cc4e2f1e6529c9e6cb99501844ecafd16c619c4
-# See: https://docs.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-build-tools?view=vs-2019#c-build-tools
-# Other dependent/required components including the "Microsoft.VisualStudio.Workload.MSBuildTools"
-# are added by the installer, do not need to be listed below, and cannot be supressed.
-echo @"
-{
-  "version": "1.0",
-  "components": [
-    "Microsoft.VisualStudio.Workload.VCTools",
-    "Microsoft.VisualStudio.Component.Windows11SDK.22000",
-    "Microsoft.VisualStudio.Component.VC.Tools.x86.x64",
-  ]
-}
-"@ > $env:TEMP\vs_buildtools_config
-RunAndCheckError "cmd.exe" @("/s", "/c", "$env:TEMP\vs_BuildTools.exe --addProductLang en-US --quiet --wait --norestart --nocache --config $env:TEMP\vs_buildtools_config")
-$msvcBasePath = "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC"
-$msvcFullPath = Join-Path -Path $msvcBasePath -ChildPath "Tools\MSVC\*\bin\Hostx64\x64" -Resolve
-AddToPath $msvcFullPath
-[System.Environment]::SetEnvironmentVariable('BAZEL_VC', $msvcBasePath)
+# # VS 2019 Build Tools
+# # Pinned to version 16.9.4 downloaded on 1/31/2022 via https://aka.ms/vs/16/release/vs_BuildTools.exe
+# DownloadAndCheck $env:TEMP\vs_BuildTools.exe `
+#                  https://download.visualstudio.microsoft.com/download/pr/9a26f37e-6001-429b-a5db-c5455b93953c/460d80ab276046de2455a4115cc4e2f1e6529c9e6cb99501844ecafd16c619c4/vs_BuildTools.exe `
+#                  460d80ab276046de2455a4115cc4e2f1e6529c9e6cb99501844ecafd16c619c4
+# # See: https://docs.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-build-tools?view=vs-2019#c-build-tools
+# # Other dependent/required components including the "Microsoft.VisualStudio.Workload.MSBuildTools"
+# # are added by the installer, do not need to be listed below, and cannot be supressed.
+# echo @"
+# {
+#   "version": "1.0",
+#   "components": [
+#     "Microsoft.VisualStudio.Workload.VCTools",
+#     "Microsoft.VisualStudio.Component.Windows11SDK.22000",
+#     "Microsoft.VisualStudio.Component.VC.Tools.x86.x64",
+#   ]
+# }
+# "@ > $env:TEMP\vs_buildtools_config
+# RunAndCheckError "cmd.exe" @("/s", "/c", "$env:TEMP\vs_BuildTools.exe --addProductLang en-US --quiet --wait --norestart --nocache --config $env:TEMP\vs_buildtools_config")
+# $msvcBasePath = "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC"
+# $msvcFullPath = Join-Path -Path $msvcBasePath -ChildPath "Tools\MSVC\*\bin\Hostx64\x64" -Resolve
+# AddToPath $msvcFullPath
+# [System.Environment]::SetEnvironmentVariable('BAZEL_VC', $msvcBasePath)
 
-# MS SDK - Debug Tools
-# Pinned to SDK version 2004 release 12/16/2020 link from https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/
-DownloadAndCheck $env:TEMP\winsdksetup.exe `
-                 https://download.microsoft.com/download/d/8/f/d8ff148b-450c-40b3-aeed-2a3944e66bbd/windowssdk/winsdksetup.exe `
-		 4d73ddc82caa1cbe82dffdc24b7cef368919e077bad984357d447568feab1f5f
-RunAndCheckError "cmd.exe" @("/s", "/c", "$env:TEMP\winsdksetup.exe /features OptionId.WindowsDesktopDebuggers /quiet /norestart")
-AddToPath "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64"
+# # MS SDK - Debug Tools
+# # Pinned to SDK version 2004 release 12/16/2020 link from https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/
+# DownloadAndCheck $env:TEMP\winsdksetup.exe `
+#                  https://download.microsoft.com/download/d/8/f/d8ff148b-450c-40b3-aeed-2a3944e66bbd/windowssdk/winsdksetup.exe `
+# 		 4d73ddc82caa1cbe82dffdc24b7cef368919e077bad984357d447568feab1f5f
+# RunAndCheckError "cmd.exe" @("/s", "/c", "$env:TEMP\winsdksetup.exe /features OptionId.WindowsDesktopDebuggers /quiet /norestart")
+# AddToPath "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64"
 
-# CMake to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
-DownloadAndCheck $env:TEMP\cmake.msi `
-                 https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-windows-x86_64.msi `
-                 aab9fb9d6a7a18458df2f3900c9d31218a2d38076f3c3f2c6004b800a9be0a3d
-RunAndCheckError "msiexec.exe" @("/i", "$env:TEMP\cmake.msi", "/quiet", "/norestart") $true
-AddToPath $env:ProgramFiles\CMake\bin
+# # CMake to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
+# DownloadAndCheck $env:TEMP\cmake.msi `
+#                  https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-windows-x86_64.msi `
+#                  aab9fb9d6a7a18458df2f3900c9d31218a2d38076f3c3f2c6004b800a9be0a3d
+# RunAndCheckError "msiexec.exe" @("/i", "$env:TEMP\cmake.msi", "/quiet", "/norestart") $true
+# AddToPath $env:ProgramFiles\CMake\bin
 
-# # Ninja to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
-# mkdir -Force C:\tools\ninja
-# DownloadAndCheck $env:TEMP\ninja.zip `
-#                  https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip `
-#                  bbde850d247d2737c5764c927d1071cbb1f1957dcabda4a130fa8547c12c695f
-# Expand-Archive -Path $env:TEMP\ninja.zip -DestinationPath C:\tools\ninja
-# AddToPath C:\tools\ninja
+# # # Ninja to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
+# # mkdir -Force C:\tools\ninja
+# # DownloadAndCheck $env:TEMP\ninja.zip `
+# #                  https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip `
+# #                  bbde850d247d2737c5764c927d1071cbb1f1957dcabda4a130fa8547c12c695f
+# # Expand-Archive -Path $env:TEMP\ninja.zip -DestinationPath C:\tools\ninja
+# # AddToPath C:\tools\ninja
 
-# LLVM to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
-DownloadAndCheck $env:TEMP\LLVM-win64.exe `
-                 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.0/LLVM-14.0.0-win64.exe `
-                 15d52a38436417843a56883730a7e358a8afa0510a003596ee23963339a913f7
-RunAndCheckError $env:TEMP\LLVM-win64.exe @("/S") $true
-AddToPath $env:ProgramFiles\LLVM\bin
+# # LLVM to ensure a 64-bit build of the tool (VS BuildTools ships a 32-bit build)
+# DownloadAndCheck $env:TEMP\LLVM-win64.exe `
+#                  https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.0/LLVM-14.0.0-win64.exe `
+#                  15d52a38436417843a56883730a7e358a8afa0510a003596ee23963339a913f7
+# RunAndCheckError $env:TEMP\LLVM-win64.exe @("/S") $true
+# AddToPath $env:ProgramFiles\LLVM\bin
 
-# NASM (preferred by some OSS projects over MS ml.exe, closer to gnu/intel syntax)
-$nasmVersion = "2.15.05"
-DownloadAndCheck $env:TEMP\nasm-win64.zip `
-                 https://www.nasm.us/pub/nasm/releasebuilds/$nasmVersion/win64/nasm-$nasmVersion-win64.zip `
-                 f5c93c146f52b4f1664fa3ce6579f961a910e869ab0dae431bd871bdd2584ef2
-Expand-Archive -Path $env:TEMP\nasm-win64.zip -DestinationPath C:\tools\
-AddToPath C:\tools\nasm-$nasmVersion
+# # NASM (preferred by some OSS projects over MS ml.exe, closer to gnu/intel syntax)
+# $nasmVersion = "2.15.05"
+# DownloadAndCheck $env:TEMP\nasm-win64.zip `
+#                  https://www.nasm.us/pub/nasm/releasebuilds/$nasmVersion/win64/nasm-$nasmVersion-win64.zip `
+#                  f5c93c146f52b4f1664fa3ce6579f961a910e869ab0dae431bd871bdd2584ef2
+# Expand-Archive -Path $env:TEMP\nasm-win64.zip -DestinationPath C:\tools\
+# AddToPath C:\tools\nasm-$nasmVersion
 
 # Python3 (do not install via msys2 or the MS store's flavors, this version follows Win32 semantics)
 DownloadAndCheck $env:TEMP\python3-installer.exe `
                  https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe `
                  137d59e5c0b01a8f1bdcba08344402ae658c81c6bf03b6602bd8b4e951ad0714
+
+Get-ChildItem -Path $env:TEMP
+
+
 # python installer needs to be run as an installer with Start-Process
 RunAndCheckError "$env:TEMP\python3-installer.exe" @("/quiet", "InstallAllUsers=1", "Include_launcher=0", "InstallLauncherAllUsers=0") $true
 AddToPath $env:ProgramFiles\Python39
