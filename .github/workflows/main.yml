@@ -92,7 +92,9 @@ jobs:
             msbuild-architecture: x64
 
         - name: wtf
-          run: ls -lsa "C:/"
+          run: |
+            echo $PATH
+            env
 
         # - name: make space
         #   run: |
