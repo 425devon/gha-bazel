@@ -91,9 +91,13 @@ jobs:
           with:
             msbuild-architecture: x64
 
+        # - uses: py-actions/py-dependency-install@v3
+        # - uses: seanmiddleditch/gha-setup-ninja@master
+        # - uses: ilammy/msvc-dev-cmd@v1
+
         - name: wtf
           run: |
-            echo $PATH
+            ls -lsa ls -lsa "C:\Program Files"
             env
 
         # - name: make space
@@ -119,12 +123,6 @@ jobs:
         # #   shell: pwsh
         # #   run: |
         # #     .\windows.ps1
-
-        # - name: Install Python dependencies
-        #   uses: py-actions/py-dependency-install@v3
-
-        # - uses: seanmiddleditch/gha-setup-ninja@master
-        # - uses: ilammy/msvc-dev-cmd@v1
 
         # - name: set env
         #   shell: cmd
