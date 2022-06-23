@@ -141,21 +141,21 @@ mkdir -Force C:\tools
 # Expand-Archive -Path $env:TEMP\nasm-win64.zip -DestinationPath C:\tools\
 # AddToPath C:\tools\nasm-$nasmVersion
 
-# Python3 (do not install via msys2 or the MS store's flavors, this version follows Win32 semantics)
-DownloadAndCheck $env:TEMP\python3-installer.exe `
-                 https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe `
-                 137d59e5c0b01a8f1bdcba08344402ae658c81c6bf03b6602bd8b4e951ad0714
+# # Python3 (do not install via msys2 or the MS store's flavors, this version follows Win32 semantics)
+# DownloadAndCheck $env:TEMP\python3-installer.exe `
+#                  https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe `
+#                  137d59e5c0b01a8f1bdcba08344402ae658c81c6bf03b6602bd8b4e951ad0714
 
 
-# python installer needs to be run as an installer with Start-Process
-RunAndCheckError "$env:TEMP\python3-installer.exe" @("/quiet", "InstallAllUsers=1", "Include_launcher=0", "InstallLauncherAllUsers=0") $true
-mkdir -Force C:\ProgramFiles\Python39
-AddToPath $env:ProgramFiles\Python39
-AddToPath $env:ProgramFiles\Python39\Scripts
+# # python installer needs to be run as an installer with Start-Process
+# RunAndCheckError "$env:TEMP\python3-installer.exe" @("/quiet", "InstallAllUsers=1", "Include_launcher=0", "InstallLauncherAllUsers=0") $true
+# mkdir -Force C:\ProgramFiles\Python39
+# AddToPath $env:ProgramFiles\Python39
+# AddToPath $env:ProgramFiles\Python39\Scripts
 
-# Add symlinks for canonical executables expected in a Python environment
-RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.exe", "\hostedtoolcache\windows\Python\3.7.9\x64\python.exe")
-RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.9.exe", "\hostedtoolcache\windows\Python\3.7.9\x64\python.exe")
+# # Add symlinks for canonical executables expected in a Python environment
+# RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.exe", "\hostedtoolcache\windows\Python\3.7.9\x64\python.exe")
+# RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.9.exe", "\hostedtoolcache\windows\Python\3.7.9\x64\python.exe")
 # Upgrade pip
 RunAndCheckError "python.exe" @("-m", "pip", "install", "--upgrade", "pip")
 # Install wheel so rules_python rules will run
