@@ -87,7 +87,7 @@ jobs:
           shell: bash
       steps:
         - name: wtf
-          run: ls -lsa "C:\Program Files (x86)\Microsoft Visual Studio"
+          run: ls -lsa "C:\Program Files (x86)\Microsoft Visual Studio\2019"
         # - name: make space
         #   run: |
         #     pwd
@@ -118,9 +118,10 @@ jobs:
         # - uses: seanmiddleditch/gha-setup-ninja@master
         # - uses: ilammy/msvc-dev-cmd@v1
 
-        # - name: set env
-        #   shell: cmd
-        #   run: |
+        - name: set env
+          shell: cmd
+          run: |
+            set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC
         #     set PreferredToolArchitecture=x64
         #     set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
         #     set PATH=%USERPROFILE%\VSBT2019\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64;%PATH%
@@ -137,6 +138,9 @@ jobs:
         #     setx BAZEL_VC "%BAZEL_VC%"
         #     setx TMPDIR "%TMPDIR%"
         #     setx MSYS2_PATH_TYPE "%MSYS2_PATH_TYPE%"
+
+        - name: env
+          run: env
         
         # - name: download envoy sources
         #   id: envoy-sources
