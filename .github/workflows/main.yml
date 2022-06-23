@@ -99,7 +99,7 @@ jobs:
           run: |
             ls -lsa "C:\hostedtoolcache\windows"
             ls -lsa "C:\hostedtoolcache\windows\Python"
-            ls -lsa "C:\hostedtoolcache\windows\Python\3.7.9\x64\"
+            ls -lsa "C:\hostedtoolcache\windows\Python\3.7.9\x64"
 
         # - name: make space
         #   run: |
