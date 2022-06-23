@@ -154,6 +154,7 @@ AddToPath $env:ProgramFiles\Python39
 AddToPath $env:ProgramFiles\Python39\Scripts
 
 Get-ChildItem -Path $env:ProgramFiles
+Get-ChildItem -Path "$env:ProgramFiles (x86)"
 Get-Command python3
 
 # Add symlinks for canonical executables expected in a Python environment
