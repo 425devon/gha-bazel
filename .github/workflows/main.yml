@@ -105,10 +105,10 @@ jobs:
           id: checkout
           uses: actions/checkout@v2
 
-        - name: prepare env
-          shell: pwsh
-          run: |
-            .\windows.ps1
+        # - name: prepare env
+        #   shell: pwsh
+        #   run: |
+        #     .\windows.ps1
 
         - name: Install Python dependencies
           uses: py-actions/py-dependency-install@v3
@@ -119,7 +119,8 @@ jobs:
           shell: cmd
           run: |
             set PreferredToolArchitecture=x64
-            set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC
+            set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
+            set PATH=%USERPROFILE%\VSBT2019\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64;%PATH%
             set PATH=%USERPROFILE%\msys64\usr\bin;%PATH%
             set BAZEL_SH=%USERPROFILE%\msys64\usr\bin\bash.exe
             set MSYS2_ARG_CONV_EXCL=*
