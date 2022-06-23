@@ -93,6 +93,7 @@ jobs:
 
         # - name: wtf
         #   run: ls -lsa "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
+
         # - name: make space
         #   run: |
         #     pwd
@@ -120,7 +121,7 @@ jobs:
         # - name: Install Python dependencies
         #   uses: py-actions/py-dependency-install@v3
 
-        # - uses: seanmiddleditch/gha-setup-ninja@master
+        - uses: seanmiddleditch/gha-setup-ninja@master
         # - uses: ilammy/msvc-dev-cmd@v1
 
         # - name: set env
@@ -163,10 +164,6 @@ jobs:
         - name: Build Envoy
           working-directory: envoy-sources
           env:
-            ENVOY_DOCKER_BUILD_DIR: "C:/build"
-            # We have to leave some resources free, as if bazel will use all of them
-            # the GitHub Actions Runner service will stop responding and any action
-            # run on this machine will be cancelled
             # https://docs.bazel.build/versions/main/memory-saving-mode.html
             BAZEL_STARTUP_OPTIONS: >-
               --host_jvm_args=-Xmx4g
