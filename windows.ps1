@@ -153,7 +153,8 @@ RunAndCheckError "$env:TEMP\python3-installer.exe" @("/quiet", "InstallAllUsers=
 AddToPath $env:ProgramFiles\Python39
 AddToPath $env:ProgramFiles\Python39\Scripts
 
-Get-ChildItem -Path $env:ProgramFiles\Python39
+Get-ChildItem -Path $env:ProgramFiles
+Get-Command python3
 
 # Add symlinks for canonical executables expected in a Python environment
 RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.exe", "$env:ProgramFiles\Python39\python.exe")
