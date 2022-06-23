@@ -87,7 +87,7 @@ jobs:
           shell: bash
       steps:
         - name: wtf
-          run: ls -lsa "C:\Program Files (x86)\Microsoft Visual Studio\2019"
+          run: ls -lsa "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
         # - name: make space
         #   run: |
         #     pwd
@@ -121,7 +121,7 @@ jobs:
         - name: set env
           shell: cmd
           run: |
-            set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC
+            set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\BuildTools\VC
         #     set PreferredToolArchitecture=x64
         #     set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
         #     set PATH=%USERPROFILE%\VSBT2019\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64;%PATH%
