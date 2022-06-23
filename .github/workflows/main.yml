@@ -92,7 +92,7 @@ jobs:
             msbuild-architecture: x64
 
         - name: wtf
-          run: ls -lsa "C:"
+          run: ls -lsa
 
         # - name: make space
         #   run: |
