@@ -91,8 +91,8 @@ jobs:
           with:
             msbuild-architecture: x64
 
-        # - name: wtf
-        #   run: ls -lsa "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
+        - name: wtf
+          run: ls -lsa "C:"
 
         # - name: make space
         #   run: |
@@ -121,13 +121,12 @@ jobs:
         # - name: Install Python dependencies
         #   uses: py-actions/py-dependency-install@v3
 
-        - uses: seanmiddleditch/gha-setup-ninja@master
+        # - uses: seanmiddleditch/gha-setup-ninja@master
         # - uses: ilammy/msvc-dev-cmd@v1
 
-        - name: set env
-          shell: cmd
-          run: |
-            set %PATH%;c:\windows\system32
+        # - name: set env
+        #   shell: cmd
+        #   run: |
         #     set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\BuildTools\VC
         #     set PreferredToolArchitecture=x64
         #     set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
@@ -146,38 +145,38 @@ jobs:
         #     setx TMPDIR "%TMPDIR%"
         #     setx MSYS2_PATH_TYPE "%MSYS2_PATH_TYPE%"
 
-        - name: env
-          run: env
+        # - name: env
+        #   run: env
         
-        - name: download envoy sources
-          id: envoy-sources
-          run: |
-            mkdir -p envoy-sources
-            cd envoy-sources
-            git init .
-            git remote add origin https://github.com/envoyproxy/envoy.git
+        # - name: download envoy sources
+        #   id: envoy-sources
+        #   run: |
+        #     mkdir -p envoy-sources
+        #     cd envoy-sources
+        #     git init .
+        #     git remote add origin https://github.com/envoyproxy/envoy.git
 
-        - name: Build Envoy
-          working-directory: envoy-sources
-          env:
-            # https://docs.bazel.build/versions/main/memory-saving-mode.html
-            BAZEL_STARTUP_OPTIONS: >-
-              --host_jvm_args=-Xmx4g
+        # - name: Build Envoy
+        #   working-directory: envoy-sources
+        #   env:
+        #     # https://docs.bazel.build/versions/main/memory-saving-mode.html
+        #     BAZEL_STARTUP_OPTIONS: >-
+        #       --host_jvm_args=-Xmx4g
 
-            BAZEL_BUILD_OPTIONS: >-
-              --jobs=3
-              --local_ram_resources=HOST_RAM*.99
-              --local_cpu_resources=2
-              --discard_analysis_cache
-              --notrack_incremental_state
-              --nokeep_state_after_build
+        #     BAZEL_BUILD_OPTIONS: >-
+        #       --jobs=3
+        #       --local_ram_resources=HOST_RAM*.99
+        #       --local_cpu_resources=2
+        #       --discard_analysis_cache
+        #       --notrack_incremental_state
+        #       --nokeep_state_after_build
 
-          run: |
-            bazel ${BAZEL_STARTUP_OPTIONS[@]} build ${BAZEL_BUILD_OPTIONS[@]} -c opt //source/exe:envoy-static
+        #   run: |
+        #     bazel ${BAZEL_STARTUP_OPTIONS[@]} build ${BAZEL_BUILD_OPTIONS[@]} -c opt //source/exe:envoy-static
 
-        - name: Archive production artifacts
-          uses: actions/upload-artifact@v2
-          with:
-            name: envoy_${{ github.sha }}
-            path: |
-              C:/build/envoy/source/exe/envoy.exe
+        # - name: Archive production artifacts
+        #   uses: actions/upload-artifact@v2
+        #   with:
+        #     name: envoy_${{ github.sha }}
+        #     path: |
+        #       C:/build/envoy/source/exe/envoy.exe
