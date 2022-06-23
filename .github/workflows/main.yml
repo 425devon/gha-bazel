@@ -86,6 +86,8 @@ jobs:
         run:
           shell: bash
       steps:
+        - name: wtf
+          run: ls -lsa C:\Program Files (x86)
         # - name: make space
         #   run: |
         #     pwd
@@ -101,20 +103,20 @@ jobs:
         #     df -k .
         #   working-directory: C:\Program Files
 
-        - name: Checkout step
-          id: checkout
-          uses: actions/checkout@v2
+        # - name: Checkout step
+        #   id: checkout
+        #   uses: actions/checkout@v2
 
-        # - name: prepare env
-        #   shell: pwsh
-        #   run: |
-        #     .\windows.ps1
+        # # - name: prepare env
+        # #   shell: pwsh
+        # #   run: |
+        # #     .\windows.ps1
 
-        - name: Install Python dependencies
-          uses: py-actions/py-dependency-install@v3
+        # - name: Install Python dependencies
+        #   uses: py-actions/py-dependency-install@v3
 
-        - uses: seanmiddleditch/gha-setup-ninja@master
-        - uses: ilammy/msvc-dev-cmd@v1
+        # - uses: seanmiddleditch/gha-setup-ninja@master
+        # - uses: ilammy/msvc-dev-cmd@v1
 
         # - name: set env
         #   shell: cmd
@@ -136,44 +138,44 @@ jobs:
         #     setx TMPDIR "%TMPDIR%"
         #     setx MSYS2_PATH_TYPE "%MSYS2_PATH_TYPE%"
         
-        - name: download envoy sources
-          id: envoy-sources
-          run: |
-            mkdir -p envoy-sources
-            cd envoy-sources
-            git init .
-            git remote add origin https://github.com/envoyproxy/envoy.git
+        # - name: download envoy sources
+        #   id: envoy-sources
+        #   run: |
+        #     mkdir -p envoy-sources
+        #     cd envoy-sources
+        #     git init .
+        #     git remote add origin https://github.com/envoyproxy/envoy.git
 
-            git fetch origin --depth=1 ${ENVOY_TAG}
-            git reset --hard FETCH_HEAD
-          env:
-            ENVOY_TAG: v1.22.0
+        #     git fetch origin --depth=1 ${ENVOY_TAG}
+        #     git reset --hard FETCH_HEAD
+        #   env:
+        #     ENVOY_TAG: v1.22.0
 
-        - name: Build Envoy
-          working-directory: envoy-sources
-          env:
-            ENVOY_DOCKER_BUILD_DIR: "C:/build"
-            # We have to leave some resources free, as if bazel will use all of them
-            # the GitHub Actions Runner service will stop responding and any action
-            # run on this machine will be cancelled
-            # https://docs.bazel.build/versions/main/memory-saving-mode.html
-            BAZEL_STARTUP_OPTIONS: >-
-              --host_jvm_args=-Xmx4g
+        # - name: Build Envoy
+        #   working-directory: envoy-sources
+        #   env:
+        #     ENVOY_DOCKER_BUILD_DIR: "C:/build"
+        #     # We have to leave some resources free, as if bazel will use all of them
+        #     # the GitHub Actions Runner service will stop responding and any action
+        #     # run on this machine will be cancelled
+        #     # https://docs.bazel.build/versions/main/memory-saving-mode.html
+        #     BAZEL_STARTUP_OPTIONS: >-
+        #       --host_jvm_args=-Xmx4g
 
-            BAZEL_BUILD_OPTIONS: >-
-              --jobs=3
-              --local_ram_resources=HOST_RAM*.99
-              --local_cpu_resources=2
-              --discard_analysis_cache
-              --notrack_incremental_state
-              --nokeep_state_after_build
+        #     BAZEL_BUILD_OPTIONS: >-
+        #       --jobs=3
+        #       --local_ram_resources=HOST_RAM*.99
+        #       --local_cpu_resources=2
+        #       --discard_analysis_cache
+        #       --notrack_incremental_state
+        #       --nokeep_state_after_build
 
-          run: |
-            bazel ${BAZEL_STARTUP_OPTIONS[@]} build ${BAZEL_BUILD_OPTIONS[@]} -c opt //source/exe:envoy-static
+        #   run: |
+        #     bazel ${BAZEL_STARTUP_OPTIONS[@]} build ${BAZEL_BUILD_OPTIONS[@]} -c opt //source/exe:envoy-static
 
-        - name: Archive production artifacts
-          uses: actions/upload-artifact@v2
-          with:
-            name: envoy_${{ github.sha }}
-            path: |
-              C:/build/envoy/source/exe/envoy.exe
+        # - name: Archive production artifacts
+        #   uses: actions/upload-artifact@v2
+        #   with:
+        #     name: envoy_${{ github.sha }}
+        #     path: |
+        #       C:/build/envoy/source/exe/envoy.exe
