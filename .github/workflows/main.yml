@@ -86,20 +86,20 @@ jobs:
         run:
           shell: bash
       steps:
-        - name: Add msbuild to PATH
-          uses: microsoft/setup-msbuild@v1.1
-          with:
-            msbuild-architecture: x64
+        # - name: Add msbuild to PATH
+        #   uses: microsoft/setup-msbuild@v1.1
+        #   with:
+        #     msbuild-architecture: x64
 
         # - uses: py-actions/py-dependency-install@v3
         # - uses: seanmiddleditch/gha-setup-ninja@master
         # - uses: ilammy/msvc-dev-cmd@v1
 
-        - name: wtf
-          run: |
-            ls -lsa "C:\hostedtoolcache\windows"
-            ls -lsa "C:\hostedtoolcache\windows\Python"
-            ls -lsa "C:\hostedtoolcache\windows\Python\3.7.9\x64"
+        # - name: wtf
+        #   run: |
+        #     ls -lsa "C:\hostedtoolcache\windows"
+        #     ls -lsa "C:\hostedtoolcache\windows\Python"
+        #     ls -lsa "C:\hostedtoolcache\windows\Python\3.7.9\x64"
 
         # - name: make space
         #   run: |
@@ -120,10 +120,10 @@ jobs:
         #   id: checkout
         #   uses: actions/checkout@v2
 
-        # - name: prepare env
-        #   shell: pwsh
-        #   run: |
-        #     .\windows.ps1
+        - name: prepare env
+          shell: pwsh
+          run: |
+            .\windows.ps1
 
         # - name: set env
         #   shell: cmd

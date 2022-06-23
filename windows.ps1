@@ -146,20 +146,16 @@ DownloadAndCheck $env:TEMP\python3-installer.exe `
                  https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe `
                  137d59e5c0b01a8f1bdcba08344402ae658c81c6bf03b6602bd8b4e951ad0714
 
-Get-ChildItem -Path $env:TEMP
 
 # python installer needs to be run as an installer with Start-Process
 RunAndCheckError "$env:TEMP\python3-installer.exe" @("/quiet", "InstallAllUsers=1", "Include_launcher=0", "InstallLauncherAllUsers=0") $true
+mkdir -Force C:\ProgramFiles\Python39
 AddToPath $env:ProgramFiles\Python39
 AddToPath $env:ProgramFiles\Python39\Scripts
 
-Get-ChildItem -Path $env:ProgramFiles
-Get-ChildItem -Path "$env:ProgramFiles (x86)"
-Get-Command python3
-
 # Add symlinks for canonical executables expected in a Python environment
-RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.exe", "$env:ProgramFiles\Python39\python.exe")
-RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.9.exe", "$env:ProgramFiles\Python39\python.exe")
+RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.exe", "\hostedtoolcache\windows\Python\3.7.9\x64\python.exe")
+RunAndCheckError "cmd.exe" @("/c", "mklink", "$env:ProgramFiles\Python39\python3.9.exe", "\hostedtoolcache\windows\Python\3.7.9\x64\python.exe")
 # Upgrade pip
 RunAndCheckError "python.exe" @("-m", "pip", "install", "--upgrade", "pip")
 # Install wheel so rules_python rules will run
