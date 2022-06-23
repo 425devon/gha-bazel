@@ -124,9 +124,10 @@ jobs:
         - uses: seanmiddleditch/gha-setup-ninja@master
         # - uses: ilammy/msvc-dev-cmd@v1
 
-        # - name: set env
-        #   shell: cmd
-        #   run: |
+        - name: set env
+          shell: cmd
+          run: |
+            setx %PATH%;c:\windows\system32
         #     set BAZEL_VC=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\BuildTools\VC
         #     set PreferredToolArchitecture=x64
         #     set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
@@ -155,11 +156,6 @@ jobs:
             cd envoy-sources
             git init .
             git remote add origin https://github.com/envoyproxy/envoy.git
-
-            git fetch origin --depth=1 ${ENVOY_TAG}
-            git reset --hard FETCH_HEAD
-          env:
-            ENVOY_TAG: v1.22.0
 
         - name: Build Envoy
           working-directory: envoy-sources
