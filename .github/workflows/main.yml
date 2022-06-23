@@ -116,14 +116,14 @@ jobs:
         #     df -k .
         #   working-directory: C:\Program Files
 
-        # - name: Checkout step
-        #   id: checkout
-        #   uses: actions/checkout@v2
+        - name: Checkout step
+          id: checkout
+          uses: actions/checkout@v2
 
-        # # - name: prepare env
-        # #   shell: pwsh
-        # #   run: |
-        # #     .\windows.ps1
+        - name: prepare env
+          shell: pwsh
+          run: |
+            .\windows.ps1
 
         # - name: set env
         #   shell: cmd
