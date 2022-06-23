@@ -97,10 +97,7 @@ jobs:
 
         - name: wtf
           run: |
-            ls -lsa "C:\\"
-            ls -lsa "C:\Program Files"
-            ls -lsa "C:\PROGRA~2"
-            env
+            ls -lsa "C:\hostedtoolcache"
 
         # - name: make space
         #   run: |
@@ -121,10 +118,10 @@ jobs:
           id: checkout
           uses: actions/checkout@v2
 
-        - name: prepare env
-          shell: pwsh
-          run: |
-            .\windows.ps1
+        # - name: prepare env
+        #   shell: pwsh
+        #   run: |
+        #     .\windows.ps1
 
         # - name: set env
         #   shell: cmd
