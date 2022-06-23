@@ -97,7 +97,8 @@ jobs:
 
         - name: wtf
           run: |
-            ls -lsa ls -lsa "C:\Program Files"
+            ls -lsa "C:\Program Files"
+            ls -lsa "C:\Program Files (x86)"
             env
 
         # - name: make space
