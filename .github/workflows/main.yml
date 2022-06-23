@@ -97,7 +97,7 @@ jobs:
 
         - name: wtf
           run: |
-            ls -lsa "C:\"
+            ls -lsa "C:\\"
             ls -lsa "C:\Program Files"
             ls -lsa "C:\PROGRA~2"
             env
