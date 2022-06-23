@@ -158,12 +158,12 @@ AddToPath C:\tools\nasm-$nasmVersion
 # RunAndCheckError "pip.exe" @("install", "wheel")
 # RunAndCheckError "pip.exe" @("install", "virtualenv")
 
-# 7z only to unpack msys2
-DownloadAndCheck $env:TEMP\7z-installer.exe `
-                 https://www.7-zip.org/a/7z1900-x64.exe `
-                 0f5d4dbbe5e55b7aa31b91e5925ed901fdf46a367491d81381846f05ad54c45e
-$quo = '"'
-RunAndCheckError "$env:TEMP\7z-installer.exe" @("/S", "/D=$quo$env:TEMP\7z$quo")
+# # 7z only to unpack msys2
+# DownloadAndCheck $env:TEMP\7z-installer.exe `
+#                  https://www.7-zip.org/a/7z1900-x64.exe `
+#                  0f5d4dbbe5e55b7aa31b91e5925ed901fdf46a367491d81381846f05ad54c45e
+# $quo = '"'
+# RunAndCheckError "$env:TEMP\7z-installer.exe" @("/S", "/D=$quo$env:TEMP\7z$quo")
 
 # msys2 with additional required packages
 DownloadAndCheck $env:TEMP\msys2.tar.xz `
