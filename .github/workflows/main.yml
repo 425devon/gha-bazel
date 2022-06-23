@@ -87,7 +87,7 @@ jobs:
           shell: bash
       steps:
         - name: wtf
-          run: ls -lsa C:\Program Files (x86)
+          run: ls -lsa "C:\Program Files (x86)"
         # - name: make space
         #   run: |
         #     pwd
