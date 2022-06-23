@@ -114,26 +114,27 @@ jobs:
           uses: py-actions/py-dependency-install@v3
 
         - uses: seanmiddleditch/gha-setup-ninja@master
+        - uses: ilammy/msvc-dev-cmd@v1
 
-        - name: set env
-          shell: cmd
-          run: |
-            set PreferredToolArchitecture=x64
-            set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
-            set PATH=%USERPROFILE%\VSBT2019\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64;%PATH%
-            set PATH=%USERPROFILE%\msys64\usr\bin;%PATH%
-            set BAZEL_SH=%USERPROFILE%\msys64\usr\bin\bash.exe
-            set MSYS2_ARG_CONV_EXCL=*
-            set MSYS2_PATH_TYPE=inherit
-            set TMPDIR=C:/Windows/TEMP
-            mklink /d C:\c C:\
-            set PATH=%USERPROFILE%\Git\bin;%PATH%
-            setx PATH "%PATH%"
-            setx BAZEL_SH "%BAZEL_SH%"
-            setx MSYS2_ARG_CONV_EXCL "%MSYS2_ARG_CONV_EXCL%"
-            setx BAZEL_VC "%BAZEL_VC%"
-            setx TMPDIR "%TMPDIR%"
-            setx MSYS2_PATH_TYPE "%MSYS2_PATH_TYPE%"
+        # - name: set env
+        #   shell: cmd
+        #   run: |
+        #     set PreferredToolArchitecture=x64
+        #     set BAZEL_VC=%USERPROFILE%\VSBT2019\VC
+        #     set PATH=%USERPROFILE%\VSBT2019\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64;%PATH%
+        #     set PATH=%USERPROFILE%\msys64\usr\bin;%PATH%
+        #     set BAZEL_SH=%USERPROFILE%\msys64\usr\bin\bash.exe
+        #     set MSYS2_ARG_CONV_EXCL=*
+        #     set MSYS2_PATH_TYPE=inherit
+        #     set TMPDIR=C:/Windows/TEMP
+        #     mklink /d C:\c C:\
+        #     set PATH=%USERPROFILE%\Git\bin;%PATH%
+        #     setx PATH "%PATH%"
+        #     setx BAZEL_SH "%BAZEL_SH%"
+        #     setx MSYS2_ARG_CONV_EXCL "%MSYS2_ARG_CONV_EXCL%"
+        #     setx BAZEL_VC "%BAZEL_VC%"
+        #     setx TMPDIR "%TMPDIR%"
+        #     setx MSYS2_PATH_TYPE "%MSYS2_PATH_TYPE%"
         
         - name: download envoy sources
           id: envoy-sources
