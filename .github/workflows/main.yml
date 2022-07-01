@@ -101,12 +101,12 @@ jobs:
   #       run: |
   #         rm -rf /tmp/.buildx-cache
   #         mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-    build_envoy_windows_amd64:
-      runs-on: windows-2019
-      defaults:
-        run:
-          shell: bash
-      steps:
+    # build_envoy_windows_amd64:
+    #   runs-on: windows-2019
+    #   defaults:
+    #     run:
+    #       shell: bash
+    #   steps:
         # - name: Add msbuild to PATH
         #   uses: microsoft/setup-msbuild@v1.1
         #   with:
