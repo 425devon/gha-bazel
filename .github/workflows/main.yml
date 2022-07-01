@@ -2,6 +2,27 @@ name: CI
 on: workflow_dispatch
 
 jobs:
+  build_envoy_alpine_arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout step
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/arm64
+          push: false
+          tags: user/app:latest
+
   # build_envoy_alpine_amd64:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -116,14 +137,14 @@ jobs:
         #     df -k .
         #   working-directory: C:\Program Files
 
-        - name: Checkout step
-          id: checkout
-          uses: actions/checkout@v2
+        # - name: Checkout step
+        #   id: checkout
+        #   uses: actions/checkout@v2
 
-        - name: prepare env
-          shell: pwsh
-          run: |
-            .\windows.ps1
+        # - name: prepare env
+        #   shell: pwsh
+        #   run: |
+        #     .\windows.ps1
 
         # - name: set env
         #   shell: cmd
