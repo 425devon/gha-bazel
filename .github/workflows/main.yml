@@ -5,26 +5,33 @@ jobs:
   build_envoy_alpine_arm64:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: 'arm64'
+      - name: set env var
+        run: echo "COMPLETED_THING=thing1.tar.gz\n" >> $GITHUB_ENV
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: append env var
+        run: echo "COMPLETED_THING=${COMPLETED_THING}thing2.tar.gz\n" >> $GITHUB_ENV
+      # - name: Checkout repository
+      #   uses: actions/checkout@v3
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: false
-          tags: user/app:latest
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v2
+      #   with:
+      #     platforms: 'arm64'
 
-  # build_envoy_alpine_amd64:
-  #   runs-on: ubuntu-latest
-  #   steps:
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v2
+
+      # - name: Build and push
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: false
+      #     tags: user/app:latest
+
+  build_envoy_alpine_amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ env.COMPLETED_THING }}
   #     - name: Checkout step
   #       id: checkout
   #       uses: actions/checkout@v2
