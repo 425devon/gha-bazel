@@ -7,10 +7,10 @@ jobs:
     steps:
 
       - name: set env var
-        run: echo "COMPLETED_THING=thing1.tar.gz\n" >> $GITHUB_ENV
+        run: echo "COMPLETED_THING=thing1.tar.gz " >> $GITHUB_ENV
 
       - name: append env var
-        run: echo "COMPLETED_THING=${COMPLETED_THING}thing2.tar.gz\n" >> $GITHUB_ENV
+        run: echo "COMPLETED_THING=${COMPLETED_THING}thing2.tar.gz " >> $GITHUB_ENV
 
       - run: echo ${{ env.COMPLETED_THING }}
       # - name: Checkout repository
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_envoy_alpine_arm64
     steps:
-      - run: echo ${{ env.COMPLETED_THING }}
+      - run: exit 2
   #     - name: Checkout step
   #       id: checkout
   #       uses: actions/checkout@v2
