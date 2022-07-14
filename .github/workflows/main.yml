@@ -9,7 +9,7 @@ jobs:
       matrix:
         distro: [darwin, centos, alpine]
     runs-on: ubuntu-latest
-    continue-on-error: true
+    continue-on-error: false
     steps:
 
     - name: Print
